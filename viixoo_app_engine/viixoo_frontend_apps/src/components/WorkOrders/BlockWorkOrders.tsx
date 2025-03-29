@@ -77,7 +77,7 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
         WorkOrdersService.blockWorkorder({ requestBody: data }),
       onSuccess: () => {
         showSuccessToast("Orden bloqueada satisfactoriamente.")
-        queryClient.invalidateQueries({ queryKey: ["items"] })
+        queryClient.invalidateQueries({ queryKey: ["workorders"] })
         reset()
       },
       onError: (err: ApiError) => {
