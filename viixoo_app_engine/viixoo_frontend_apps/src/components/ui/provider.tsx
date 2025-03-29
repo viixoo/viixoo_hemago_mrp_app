@@ -1,5 +1,3 @@
-"use client"
-
 import { ChakraProvider } from "@chakra-ui/react"
 import React, { type PropsWithChildren } from "react"
 import { system } from "../../theme"
