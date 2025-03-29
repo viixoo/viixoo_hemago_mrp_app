@@ -49,6 +49,7 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
       handleSubmit,
       reset,
       register,
+      setValue,
       formState: { isValid, isSubmitting },
     } = useForm<BlockWorkOrder>({
       mode: "onBlur",
@@ -108,26 +109,26 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
           </DialogHeader>
           <DialogBody>
            <Field label="Motivo de pérdida:">
-          <Select.Root required collection={reasons} size="sm" {...register("loss_id", blockRules())}>
-            <Select.HiddenSelect />
-            <Select.Control>
-                  <Select.Trigger>
-                    <Select.ValueText placeholder="Seleccione el motivo" />
-                  </Select.Trigger>
-                  <Select.IndicatorGroup>
-                    <Select.Indicator />
-                  </Select.IndicatorGroup>
-                </Select.Control>
-              <Portal container={contentRef}>
-                  <Select.Positioner>
-                    <Select.Content>
-                      {reasons.items.map((item) => (
-                        <Select.Item item={item} key={item.value}>
-                          {item.label}
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
+            <Select.Root required collection={reasons} size="sm" onValueChange={(value) => setValue("loss_id", Number(value.value))}>
+              <Select.HiddenSelect/>
+              <Select.Control {...register("loss_id", blockRules())}>
+                    <Select.Trigger>
+                      <Select.ValueText placeholder="Seleccione el motivo" />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                <Portal container={contentRef}>
+                    <Select.Positioner>
+                      <Select.Content>
+                        {reasons.items.map((item) => (
+                          <Select.Item item={item} key={item.value}>
+                            {item.label}
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Positioner>
                 </Portal>
               </Select.Root>
               </Field>
