@@ -48,3 +48,13 @@ def get_password_hash(password: str) -> str:
     :return: Encrypted password.
     """
     return pwd_context.hash(password)
+
+
+def get_payload(token):
+    """Get payload."""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    except Exception:
+        return False
+    else:
+        return payload

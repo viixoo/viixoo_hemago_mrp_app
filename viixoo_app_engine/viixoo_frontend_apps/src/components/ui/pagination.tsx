@@ -1,5 +1,3 @@
-"use client"
-
 import type { ButtonProps, TextProps } from "@chakra-ui/react"
 import {
   Button,
