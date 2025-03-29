@@ -48,7 +48,9 @@ export const AddComponentsWorkOrders = ({ item }: WorkOrderProps) => {
       handleSubmit,
       reset,
       register,
+      setValue,
       formState: { isValid, isSubmitting },
+      trigger,
     } = useForm<AddComponentsWorkOrder>({
       mode: "onBlur",
       criteriaMode: "all",
@@ -105,9 +107,15 @@ export const AddComponentsWorkOrders = ({ item }: WorkOrderProps) => {
           </DialogHeader>
           <DialogBody>
            <Field label="Producto:">
-          <Select.Root required collection={products} size="sm" {...register("product_id", blockRules())}>
+          <Select.Root
+          required
+          collection={products} size="sm"
+          onValueChange={(value) => {
+            setValue("product_id", Number(value.value));
+            trigger("product_id");
+          }}>
             <Select.HiddenSelect />
-            <Select.Control>
+            <Select.Control {...register("product_id", blockRules())}>
                   <Select.Trigger>
                     <Select.ValueText placeholder="Seleccione el producto" />
                   </Select.Trigger>
