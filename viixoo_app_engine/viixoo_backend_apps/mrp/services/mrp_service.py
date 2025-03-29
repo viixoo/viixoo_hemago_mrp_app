@@ -19,7 +19,6 @@ from typing import Any
 import requests
 import logging
 import json
-import jwt
 import os
 from viixoo_core.services.base_service import BaseService
 from fastapi import Depends, HTTPException
@@ -74,7 +73,7 @@ class MrpService(BaseService):
             _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
             raise HTTPException(
-                status_code=400, detail="Usuario o contraseña incorrecto"
+                status_code=401, detail="Usuario o contraseña incorrecto"
             )
         else:
             response = json.loads(odoo_response.text)
@@ -98,19 +97,23 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
-            odoo_response = requests.get(
-                URL_ODOO + "/hemago/get_employee/",
-                headers=headers,
-                data=json.dumps({"employee_id": payload.get("sub")}),
-                verify=True,
-                timeout=100,
-            )
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
+            else:
+                odoo_response = requests.get(
+                    URL_ODOO + "/hemago/get_employee/",
+                    headers=headers,
+                    data=json.dumps({"employee_id": payload.get("sub")}),
+                    verify=True,
+                    timeout=100,
+                )
         except Exception as e:
+            detail = e.detail if e.detail else "Usuario no encontrado"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Usuario no encontrado")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("employee"):
@@ -126,7 +129,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "new_password": body.new_password,
@@ -140,10 +145,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Usuario no encontrado"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Usuario no encontrado")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -163,7 +169,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {"employee_id": payload.get("sub"), "start": skip, "limit": limit}
             odoo_response = requests.get(
                 URL_ODOO + "/hemago/get_production_order/",
@@ -173,13 +181,15 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
-            error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
-            _logger.error(error_str)
-            raise HTTPException(
-                status_code=400,
-                detail="Ha ocurrido un error al enviar la solicitud a Odoo",
+            detail = (
+                e.detail
+                if e.detail
+                else "Ha ocurrido un error al enviar la solicitud a Odoo"
             )
+            status_code = e.status_code if e.status_code else 400
+            error_str = str(e)
+            _logger.error(error_str)
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -202,7 +212,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {"employee_id": payload.get("sub"), "start": skip, "limit": limit}
             odoo_response = requests.get(
                 URL_ODOO + "/hemago/get_workorder/",
@@ -212,13 +224,15 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
-            error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
-            _logger.error(error_str)
-            raise HTTPException(
-                status_code=400,
-                detail="Ha ocurrido un error al enviar la solicitud a Odoo",
+            detail = (
+                e.detail
+                if e.detail
+                else "Ha ocurrido un error al enviar la solicitud a Odoo"
             )
+            status_code = e.status_code if e.status_code else 400
+            error_str = str(e)
+            _logger.error(error_str)
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -295,7 +309,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -308,10 +324,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -328,7 +345,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -343,10 +362,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -365,7 +385,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -378,10 +400,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -400,7 +423,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -413,10 +438,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -435,7 +461,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -448,10 +476,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -470,7 +499,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "workorder_id": body.workorder_id,
@@ -485,10 +516,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Orden no encontrada"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Orden no encontrada")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
@@ -505,7 +537,9 @@ class MrpService(BaseService):
             "Content-Type": "application/json",
         }
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[security.ALGORITHM])
+            payload = security.get_payload(token)
+            if not payload:
+                raise HTTPException(status_code=403, detail="Usuario no autenticado")
             data = {
                 "employee_id": payload.get("sub"),
                 "move_id": body.move_raw_id,
@@ -519,10 +553,11 @@ class MrpService(BaseService):
                 timeout=100,
             )
         except Exception as e:
+            detail = e.detail if e.detail else "Componente no encontrado"
+            status_code = e.status_code if e.status_code else 400
             error_str = str(e)
-            _logger.error("Ha ocurrido un error al enviar la solicitud a Odoo")
             _logger.error(error_str)
-            raise HTTPException(status_code=400, detail="Componente no encontrado")
+            raise HTTPException(status_code=status_code, detail=detail)
         else:
             response = json.loads(odoo_response.text)
             if response.get("status") == "success":
