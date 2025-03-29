@@ -51,6 +51,7 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
       register,
       setValue,
       formState: { isValid, isSubmitting },
+      trigger,
     } = useForm<BlockWorkOrder>({
       mode: "onBlur",
       criteriaMode: "all",
@@ -109,7 +110,14 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
           </DialogHeader>
           <DialogBody>
            <Field label="Motivo de pérdida:">
-            <Select.Root required collection={reasons} size="sm" onValueChange={(value) => setValue("loss_id", Number(value.value))}>
+            <Select.Root
+            required collection={reasons}
+            size="sm"
+            onValueChange={(value) => {
+              setValue("loss_id", Number(value.value));
+              trigger("loss_id");
+            }}
+            >
               <Select.HiddenSelect/>
               <Select.Control {...register("loss_id", blockRules())}>
                     <Select.Trigger>
