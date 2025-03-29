@@ -87,7 +87,8 @@ class MrpService(BaseService):
                 )
             else:
                 raise HTTPException(
-                    status_code=400, detail="Usuario o contraseña incorrecto"
+                    status_code=400,
+                    detail="No fue encontrado ningún usuario con las credenciales proporcionadas",
                 )
 
     def get_user(self, token: Annotated[str, Depends(reusable_oauth2)]) -> User:

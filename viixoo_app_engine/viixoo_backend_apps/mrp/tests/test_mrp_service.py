@@ -9,6 +9,7 @@ import json
 import random
 import string
 from mrp.services import security
+from fastapi import HTTPException
 
 client = TestClient(app)
 
@@ -63,13 +64,15 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("requests.post")
     def test_authenticate_user_invalid_credentials(self, mock_post):
         """Tests for failed authentication due to invalid credentials."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=401, detail="Usuario o contraseña incorrecto"
+        )
 
         response = client.post(
             "/login/access-token", data={"username": "test", "password": "wrong"}
         )
 
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
         self.assertIn("Usuario o contraseña incorrecto", response.json()["detail"])
 
     @patch("requests.get")
@@ -124,8 +127,8 @@ class TestMrpEndpoints(unittest.TestCase):
             "/users/me/", headers={"Authorization": "Bearer invalid_token"}
         )
 
-        self.assertEqual(response.status_code, 400)
-        self.assertIn("Usuario no encontrado", response.json()["detail"])
+        self.assertEqual(response.status_code, 403)
+        self.assertIn("Usuario no autenticado", response.json()["detail"])
 
     @patch("requests.get")
     def test_get_workorders(self, mock_get):
@@ -170,7 +173,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_start_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Tests start work order failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=400, detail="Orden no encontrada"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -204,7 +209,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_pause_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Test pause work order failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=400, detail="Orden no encontrada"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -238,7 +245,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_finish_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Test finish work order failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=400, detail="Orden no encontrada"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -272,7 +281,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_unblock_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Test unblock work order failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=400, detail="Orden no encontrada"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -306,7 +317,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_block_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Test block work order failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=400, detail="Orden no encontrada"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -352,7 +365,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_reset_password_failure(self, mock_jwt_decode, mock_post):
         """Test reset password failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=403, detail="Usuario no autenticado"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -363,7 +378,7 @@ class TestMrpEndpoints(unittest.TestCase):
                 "current_password": self.generate_test_password(),
             },
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)
 
     @patch("requests.post")
     @patch("jwt.decode")
@@ -396,7 +411,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_consume_component_failure(self, mock_jwt_decode, mock_post):
         """Test consume components failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=403, detail="Usuario no autenticado"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -407,7 +424,7 @@ class TestMrpEndpoints(unittest.TestCase):
                 "consumed": 1,
             },
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)
 
     @patch("requests.post")
     @patch("jwt.decode")
@@ -434,7 +451,9 @@ class TestMrpEndpoints(unittest.TestCase):
     @patch("jwt.decode")
     def test_add_component_failure(self, mock_jwt_decode, mock_post):
         """Test add components failure."""
-        mock_post.side_effect = Exception("Simulated error")
+        mock_post.side_effect = HTTPException(
+            status_code=403, detail="Usuario no autenticado"
+        )
         mock_jwt_decode.return_value = {"sub": "employee_id_1"}
 
         response = client.patch(
@@ -446,7 +465,7 @@ class TestMrpEndpoints(unittest.TestCase):
                 "quantity": 1,
             },
         )
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 403)
 
 
 if __name__ == "__main__":
