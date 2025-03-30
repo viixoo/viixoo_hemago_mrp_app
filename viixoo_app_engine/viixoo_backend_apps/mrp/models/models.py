@@ -1,6 +1,11 @@
 """Model that defines the data models for the MRP application."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, BeforeValidator, Field
+from typing import Annotated
+
+
+"""If a boolean is received set to None."""
+BOOEAL_STR = Annotated[str | None, BeforeValidator(lambda v: None if v is False else v)]
 
 
 class Token(BaseModel):
@@ -79,7 +84,7 @@ class User(BaseModel):
     """Model for an user."""
 
     full_name: str = Field(max_length=255)
-    email: str | None = Field(max_length=255)
+    email: BOOEAL_STR = Field(max_length=255, default=None)
 
 
 class UpdatePassword(BaseModel):
