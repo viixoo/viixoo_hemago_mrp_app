@@ -112,14 +112,14 @@ class WorkOrders(BaseModel):
 class ReasonLoss(BaseModel):
     """Model for a reason loss."""
 
-    label: str = Field(max_length=255)
+    label: str = Field(max_length=500)
     value: int
 
 
 class Product(BaseModel):
     """Model for a product."""
 
-    label: str = Field(max_length=255)
+    label: str = Field(max_length=1200)
     value: int
 
 
