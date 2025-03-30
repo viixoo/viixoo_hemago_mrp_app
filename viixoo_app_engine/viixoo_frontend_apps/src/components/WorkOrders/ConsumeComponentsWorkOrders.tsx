@@ -42,7 +42,7 @@ export const ConsumeComponentsWorkOrders = ({ item }: WorkOrderProps) => {
     mutationFn: (data: { move_raw_id: number; consumed: boolean }) =>
       WorkOrdersService.consumeComponentWorkorder({ requestBody: data }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
+      queryClient.invalidateQueries({ queryKey: ["workorders"] })
       showSuccessToast("Componente actualizado correctamente")
     },
     onError: (err: ApiError) => {
