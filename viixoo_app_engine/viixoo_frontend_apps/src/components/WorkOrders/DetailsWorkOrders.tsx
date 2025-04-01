@@ -8,6 +8,7 @@ import {
   Table,
   Box,
   Input,
+  Link,
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { GrView } from "react-icons/gr";
@@ -169,28 +170,26 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                   </Box>
                 </Tabs.Content>
                 <Tabs.Content key="2" value="tab-instructions">
-                    <Field
-                    label="URL con las instrucciones:"
-                  >
-                     <Input
-                        id="url_document_instructions"
-                        type="text"
-                        defaultValue={item?.url_document_instructions || ""}
-                        readOnly
-                      >
-                      </Input>
+                  <Field label="URL con las instrucciones:">
+                    <Link
+                      href={item?.url_document_instructions || ""}
+                      target="_blank"
+                      color="blue.500" // Color azul para el texto del enlace
+                    >
+                      {item?.url_document_instructions || "No registrado"}
+                    </Link>
                   </Field>
-                  <Field
-                    label="URL de los diseños en 3D de los planos:"
-                  >
-                    <Textarea
-                        id="urls_plans"
-                        defaultValue={item?.urls_plans || ""}
-                        readOnly
-                      >
-                      </Textarea>
+
+                  <Field style={{ marginTop: "15px" }}label="URL de los diseños en 3D de los planos:">
+                    {item?.urls_plans && (
+                      <div style={{ marginBottom: "8px" }}>
+                        <Link href={item?.urls_plans} target="_blank" color="blue.500">
+                          {item?.urls_plans || "No registrado"}
+                        </Link>
+                      </div>
+                    )}
                   </Field>
-                  </Tabs.Content>
+                </Tabs.Content>
                   <Tabs.Content key="3" value="tab-others">
               <Field
                 label="Duración esperada:"
