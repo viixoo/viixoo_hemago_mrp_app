@@ -113,7 +113,7 @@ class TestMrpEndpoints(unittest.TestCase):
         mock_get.return_value.text = json.dumps(mock_data)
 
         response = client.get(
-            "/production-orders/?skip=0&limit=3",
+            "/production-orders/?skip=0&limit=3&order_search=&show_all_state=false",
             headers={"Authorization": f"Bearer {self.valid_token}"},
         )
 
@@ -141,7 +141,7 @@ class TestMrpEndpoints(unittest.TestCase):
         mock_get.return_value.text = json.dumps(mock_data)
 
         response = client.get(
-            "/work-orders/?skip=0&limit=3",
+            "/work-orders/?skip=0&limit=3&order_search=&show_all_state=false",
             headers={"Authorization": f"Bearer {self.valid_token}"},
         )
 
