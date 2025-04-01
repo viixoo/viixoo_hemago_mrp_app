@@ -38,12 +38,14 @@ export class ItemsService {
    * @throws ApiError
    */
   public static readItems(
-    data: ItemsReadItemsData = {}
+    data: ItemsReadItemsData
   ): CancelablePromise<ItemsReadItemsResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/production-orders/",
       query: {
+        order_search: data.order_search,
+        show_all_state: data.show_all_state,
         skip: data.skip,
         limit: data.limit,
       },
@@ -59,18 +61,21 @@ export class WorkOrdersService {
    * Read WorkOrders
    * Retrieve workorders.
    * @param data The data for the request.
+   * @param data.requestBody
    * @param data.skip
    * @param data.limit
    * @returns WorkOrders Successful Response
    * @throws ApiError
    */
   public static readWorkOrders(
-    data: ItemsReadItemsData = {}
+    data: ItemsReadItemsData
   ): CancelablePromise<WorkOrdersReadItemsResponse> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/work-orders/",
       query: {
+        order_search: data.order_search,
+        show_all_state: data.show_all_state,
         skip: data.skip,
         limit: data.limit,
       },

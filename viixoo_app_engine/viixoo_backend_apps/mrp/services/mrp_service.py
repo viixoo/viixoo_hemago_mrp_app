@@ -161,6 +161,8 @@ class MrpService(BaseService):
     def get_production_orders(
         self,
         token: Annotated[str, Depends(reusable_oauth2)],
+        order_search: str = False,
+        show_all_state: bool = False,
         skip: int = 0,
         limit: int = 100,
     ) -> Any:
@@ -173,7 +175,13 @@ class MrpService(BaseService):
             payload = security.get_payload(token)
             if not payload:
                 raise HTTPException(status_code=403, detail="Usuario no autenticado")
-            data = {"employee_id": payload.get("sub"), "start": skip, "limit": limit}
+            data = {
+                "employee_id": payload.get("sub"),
+                "order_search": order_search,
+                "show_all_state": show_all_state,
+                "start": skip,
+                "limit": limit,
+            }
             odoo_response = requests.get(
                 URL_ODOO + "/hemago/get_production_order/",
                 headers=headers,
@@ -204,6 +212,8 @@ class MrpService(BaseService):
     def get_workorders(
         self,
         token: Annotated[str, Depends(reusable_oauth2)],
+        order_search: str = False,
+        show_all_state: bool = False,
         skip: int = 0,
         limit: int = 100,
     ) -> Any:
@@ -216,7 +226,13 @@ class MrpService(BaseService):
             payload = security.get_payload(token)
             if not payload:
                 raise HTTPException(status_code=403, detail="Usuario no autenticado")
-            data = {"employee_id": payload.get("sub"), "start": skip, "limit": limit}
+            data = {
+                "employee_id": payload.get("sub"),
+                "order_search": order_search,
+                "show_all_state": show_all_state,
+                "start": skip,
+                "limit": limit,
+            }
             odoo_response = requests.get(
                 URL_ODOO + "/hemago/get_workorder/",
                 headers=headers,

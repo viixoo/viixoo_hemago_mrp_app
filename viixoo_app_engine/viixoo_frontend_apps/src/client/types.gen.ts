@@ -158,6 +158,8 @@ export type ValidationError = {
 };
 
 export type ItemsReadItemsData = {
+  order_search: string;
+  show_all_state: boolean;
   limit?: number;
   skip?: number;
 };
