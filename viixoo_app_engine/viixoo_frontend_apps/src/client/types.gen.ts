@@ -24,6 +24,7 @@ export type TimeEmployeePublic = {
 };
 
 export type WorkOrderPublic = {
+  readonly: boolean;
   workorder_id: number;
   name: string;
   product: string;

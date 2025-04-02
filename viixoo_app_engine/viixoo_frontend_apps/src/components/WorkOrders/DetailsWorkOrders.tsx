@@ -137,7 +137,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                     </Tabs.Trigger>
                 </Tabs.List>
                <Tabs.Content key="1" value="tab-work-order-time">
-                  <Box maxH="130px" overflowY="auto" borderWidth="1px" borderRadius="md">
+                  <Box maxH="130px" maxW="500px"overflowY="auto" borderWidth="1px" borderRadius="md">
                     <Table.Root maxH="100px" size="sm" showColumnBorder>
                       <Table.Header>
                         <Table.Row>
@@ -150,7 +150,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                       <Table.Body>
                         {item.time_ids?.map((time) => (
                           <Table.Row key={time.time_id}>
-                            <Table.Cell truncate maxW="sm">
+                            <Table.Cell truncate maxW="150px">
                               {time.employee}
                             </Table.Cell>
                             <Table.Cell truncate maxW="sm">
@@ -173,7 +173,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                     <Link
                       href={item?.url_document_instructions || ""}
                       target="_blank"
-                      color="blue.500" // Color azul para el texto del enlace
+                      color="blue.500"
                     >
                       {item?.url_document_instructions || "No registrado"}
                     </Link>

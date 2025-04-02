@@ -304,7 +304,8 @@ function WorkOrdensTable({
                     ].includes(item.state_value) ||
                     ["draft", "done", "cancel"].includes(item.production_state) ||
                     item.working_state == "blocked" ||
-                    item.is_user_working
+                    item.is_user_working ||
+                    item.readonly
                       ? "none"
                       : "flex"
                   }
@@ -329,7 +330,8 @@ function WorkOrdensTable({
                       "register_consumed_materials",
                       "register_byproducts",
                       "instructions",
-                    ].includes(item.test_type)
+                    ].includes(item.test_type) ||
+                    item.readonly
                       ? "none"
                       : "flex"
                   }
@@ -341,7 +343,7 @@ function WorkOrdensTable({
               <Table.Cell>
                 <MenuRoot>
                   <MenuTrigger asChild>
-                    <IconButton variant="ghost" color="inherit">
+                    <IconButton variant="ghost" color="inherit" display={item.readonly? "none": "flex"}>
                       <BsThreeDotsVertical />
                     </IconButton>
                   </MenuTrigger>

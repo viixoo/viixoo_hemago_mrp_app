@@ -135,13 +135,13 @@ export const DetailsProductionOrder = ({ item }: ProductionOrderProps) => {
                       <Table.Body>
                         {item.workorder_ids?.map((workorder) => (
                           <Table.Row key={workorder.workorder_id}>
-                            <Table.Cell truncate maxW="sm">
+                            <Table.Cell truncate maxW="90px">
                               {workorder.name}
                             </Table.Cell>
-                            <Table.Cell truncate maxW="sm">
+                            <Table.Cell truncate maxW="150px">
                               {workorder.product}
                             </Table.Cell>
-                            <Table.Cell truncate maxW="30%">
+                            <Table.Cell truncate maxW="100px">
                               {workorder.qty_remaining}
                             </Table.Cell>
                           </Table.Row>
@@ -162,10 +162,10 @@ export const DetailsProductionOrder = ({ item }: ProductionOrderProps) => {
                       <Table.Body>
                         {item.move_raw_ids?.map((comp) => (
                           <Table.Row key={comp.move_raw_id}>
-                            <Table.Cell truncate maxW="sm">
+                            <Table.Cell truncate maxW="240px">
                               {comp.product}
                             </Table.Cell>
-                            <Table.Cell truncate maxW="30%">
+                            <Table.Cell truncate maxW="100px">
                               {comp.quantity}
                             </Table.Cell>
                           </Table.Row>
