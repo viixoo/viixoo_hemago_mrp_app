@@ -2,7 +2,6 @@ import {
   Button,
   ButtonGroup,
   DialogActionTrigger,
-  Textarea,
   VStack,
   Tabs,
   Table,
