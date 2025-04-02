@@ -23,6 +23,7 @@ class TestMrpEndpoints(unittest.TestCase):
             1, expires_delta=timedelta(minutes=600)
         )
         self.work_order = {
+            "readonly": False,
             "workorder_id": 1,
             "name": "op1",
             "product": "prod1",

@@ -40,6 +40,7 @@ class Time(BaseModel):
 class WorkOrder(BaseModel):
     """Model for a work order."""
 
+    readonly: bool
     workorder_id: int
     name: str
     product: str
