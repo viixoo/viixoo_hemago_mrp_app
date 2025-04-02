@@ -65,7 +65,7 @@ export const ConsumeComponentsWorkOrders = ({ item }: WorkOrderProps) => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-      <Button maxH="35px" width="100%" variant="subtle" size="md" colorPalette="gray" >Consumir componente</Button>
+      <Button my={2} maxH="35px" width="100%" variant="subtle" size="md" colorPalette="gray" >Consumir componente</Button>
       </DialogTrigger>
       <Portal>
       <DialogContent ref={contentRef}>
