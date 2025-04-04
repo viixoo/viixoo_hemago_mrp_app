@@ -427,7 +427,7 @@ class MrpService(BaseService):
             if response.get("status") == "success":
                 return Message(message="Orden de trabajo finalizada satisfactoriamente")
             else:
-                raise HTTPException(status_code=400, detail="Orden no encontrada")
+                return Message(message=response.get("detail"))
 
     def pause_workorder(
         self,
