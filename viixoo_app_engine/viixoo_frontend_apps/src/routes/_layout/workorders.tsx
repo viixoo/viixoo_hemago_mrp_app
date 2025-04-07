@@ -305,7 +305,8 @@ function WorkOrdensTable({
                     ["draft", "done", "cancel"].includes(item.production_state) ||
                     item.working_state == "blocked" ||
                     item.is_user_working ||
-                    item.readonly
+                    item.readonly ||
+                    item.access_type != "supervisor"
                       ? "none"
                       : "flex"
                   }
@@ -337,7 +338,8 @@ function WorkOrdensTable({
                       "register_byproducts",
                       "instructions",
                     ].includes(item.test_type) ||
-                    item.readonly
+                    item.readonly ||
+                    item.access_type != "supervisor"
                       ? "none"
                       : "flex"
                   }
@@ -372,7 +374,8 @@ function WorkOrdensTable({
                         "cancel",
                       ].includes(item.production_state) ||
                       item.working_state == "blocked" ||
-                      !item.is_user_working
+                      !item.is_user_working ||
+                      item.access_type != "supervisor"
                         ? "none"
                         : "flex"
                     }
@@ -397,7 +400,8 @@ function WorkOrdensTable({
                         "done",
                         "cancel",
                       ].includes(item.production_state) ||
-                      item.working_state != "blocked"
+                      item.working_state != "blocked" ||
+                      item.access_type != "supervisor"
                         ? "none"
                         : "flex"
                     }

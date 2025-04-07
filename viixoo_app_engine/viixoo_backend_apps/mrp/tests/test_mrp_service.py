@@ -24,6 +24,7 @@ class TestMrpEndpoints(unittest.TestCase):
         )
         self.work_order = {
             "readonly": False,
+            "access_type": "operator",
             "workorder_id": 1,
             "name": "op1",
             "product": "prod1",

@@ -41,6 +41,7 @@ class WorkOrder(BaseModel):
     """Model for a work order."""
 
     readonly: bool
+    access_type: str
     workorder_id: int
     name: str
     product: str
