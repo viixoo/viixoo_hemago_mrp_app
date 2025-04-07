@@ -168,27 +168,42 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                     </Table.Root>
                   </Box>
                 </Tabs.Content>
-                <Tabs.Content key="2" value="tab-instructions">
+                <Tabs.Content key="2" maxW="500px" value="tab-instructions">
                   <Field label="URL con las instrucciones:">
                     <Link
                       href={item?.url_document_instructions || ""}
                       target="_blank"
                       color="blue.500"
+                      style={{
+                        overflowWrap: "break-word",
+                        wordBreak: "break-word",
+                        display: "block",
+                      }}
                     >
                       {item?.url_document_instructions || "No registrado"}
                     </Link>
                   </Field>
 
-                  <Field style={{ marginTop: "15px" }}label="URL de los diseños en 3D de los planos:">
+                  <Field style={{ marginTop: "15px" }} label="URL de los diseños en 3D de los planos:">
                     {item?.urls_plans && (
                       <div style={{ marginBottom: "8px" }}>
-                        <Link href={item?.urls_plans} target="_blank" color="blue.500">
+                        <Link
+                          href={item?.urls_plans}
+                          target="_blank"
+                          color="blue.500"
+                          style={{
+                            overflowWrap: "break-word",
+                            wordBreak: "break-word",
+                            display: "block",
+                          }}
+                        >
                           {item?.urls_plans || "No registrado"}
                         </Link>
                       </div>
                     )}
                   </Field>
                 </Tabs.Content>
+
                   <Tabs.Content key="3" value="tab-others">
               <Field
                 label="Duración esperada:"

@@ -186,7 +186,7 @@ function WorkOrdensTable({
     mutationFn: (data: ChangeStateWorkOrder) =>
       WorkOrdersService.finishWorkorder({ requestBody: data }),
     onSuccess: () => {
-      showSuccessToast("Orden terminada satisfactoriamente.");
+      showSuccessToast("Orden finalizada satisfactoriamente.");
       queryClient.invalidateQueries({
         queryKey: ["workorders", { page, order_search: searchQuery, show_all_state:showAllStates }],
       });
@@ -315,8 +315,14 @@ function WorkOrdensTable({
                   <Button
                     minW="60px"
                     size="xs"
-                    onClick={() =>
-                      onClickFinishWorkorder({ workorder_id: item.workorder_id })
+                    onClick={() =>{
+                        if (item.quality_state == "none") {
+                          const { showErrorToast } = useCustomToast();
+                          showErrorToast("Primero debe completar los controles de calidad.");
+                        } else {
+                          onClickFinishWorkorder({ workorder_id: item.workorder_id })
+                        }
+                      }
                     }
                     colorPalette="green"
                     display={[

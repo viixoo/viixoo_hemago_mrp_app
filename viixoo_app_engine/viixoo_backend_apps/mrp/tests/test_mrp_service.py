@@ -244,6 +244,30 @@ class TestMrpEndpoints(unittest.TestCase):
 
     @patch("requests.post")
     @patch("jwt.decode")
+    def test_finish_workorder_success_production_to_closed(
+        self, mock_jwt_decode, mock_post
+    ):
+        """Test finish work order success, production order to closed."""
+        mock_data = {
+            "detail": "La orden de fabricación permanece en Por cerrar pendiente del número de serie/lote."
+        }
+        mock_post.return_value.text = json.dumps(mock_data)
+        mock_jwt_decode.return_value = {"sub": "employee_id_1"}
+
+        response = client.patch(
+            "/workorder/finish",
+            headers={"Authorization": f"Bearer {self.valid_token}"},
+            json={"workorder_id": 1},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.json().get("message"),
+            "La orden de fabricación permanece en Por cerrar pendiente del número de serie/lote.",
+        )
+
+    @patch("requests.post")
+    @patch("jwt.decode")
     def test_finish_workorder_odoo_failure(self, mock_jwt_decode, mock_post):
         """Test finish work order failure."""
         mock_post.side_effect = HTTPException(
