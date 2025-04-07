@@ -109,7 +109,7 @@ export const AddComponentsWorkOrders = ({ item }: WorkOrderProps) => {
     >
       <DialogTrigger asChild>
         <Button my={2} maxH="35px" width="100%" variant="subtle" size="md" colorPalette="gray" display={
-                 item.access_type == "operator"? 'none' : 'flex'
+                 !["supervisor", "warehouse"].includes(item.access_type)? 'none' : 'flex'
                 }>
           Agregar componente
         </Button>

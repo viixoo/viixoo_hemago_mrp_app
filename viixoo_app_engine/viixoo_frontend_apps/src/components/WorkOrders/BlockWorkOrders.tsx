@@ -100,7 +100,7 @@ export const BlockWorkOrders = ({ item }: WorkOrderProps) => {
       <DialogTrigger asChild>
       <Button my={2} maxH="35px" width="100%" variant="solid" size="md" colorPalette="red" display={
                   ['draft', 'done', 'cancel'].includes(item.production_state) || item.working_state == 'blocked' ||
-                  item.access_type == "warehouse"? 'none' : 'flex'
+                  !["operator", "supervisor"].includes(item.access_type)? 'none' : 'flex'
                 }>Bloquear</Button>
       </DialogTrigger>
       <Portal>

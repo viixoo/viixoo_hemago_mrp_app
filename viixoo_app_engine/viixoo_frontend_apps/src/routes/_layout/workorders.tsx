@@ -306,7 +306,7 @@ function WorkOrdensTable({
                     item.working_state == "blocked" ||
                     item.is_user_working ||
                     item.readonly ||
-                    item.access_type != "supervisor"
+                    ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
                   }
@@ -339,7 +339,7 @@ function WorkOrdensTable({
                       "instructions",
                     ].includes(item.test_type) ||
                     item.readonly ||
-                    item.access_type != "supervisor"
+                    ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
                   }
