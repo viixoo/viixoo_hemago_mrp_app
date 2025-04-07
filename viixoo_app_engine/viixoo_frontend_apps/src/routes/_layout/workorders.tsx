@@ -290,7 +290,7 @@ function WorkOrdensTable({
                 <DetailsWorkOrders item={item} />
               </Table.Cell>
               <Table.Cell>
-                <Group>
+                <Group display={item.readonly? "none": "flex"}>
                   <Button
                     minW="60px"
                     size="xs"
@@ -305,7 +305,6 @@ function WorkOrdensTable({
                     ["draft", "done", "cancel"].includes(item.production_state) ||
                     item.working_state == "blocked" ||
                     item.is_user_working ||
-                    item.readonly ||
                     ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
@@ -338,7 +337,6 @@ function WorkOrdensTable({
                       "register_byproducts",
                       "instructions",
                     ].includes(item.test_type) ||
-                    item.readonly ||
                     ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
