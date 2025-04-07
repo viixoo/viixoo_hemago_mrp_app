@@ -108,7 +108,9 @@ export const AddComponentsWorkOrders = ({ item }: WorkOrderProps) => {
       onOpenChange={({ open }) => setIsOpen(open)}
     >
       <DialogTrigger asChild>
-        <Button my={2} maxH="35px" width="100%" variant="subtle" size="md" colorPalette="gray">
+        <Button my={2} maxH="35px" width="100%" variant="subtle" size="md" colorPalette="gray" display={
+                 !["supervisor", "warehouse"].includes(item.access_type)? 'none' : 'flex'
+                }>
           Agregar componente
         </Button>
       </DialogTrigger>
