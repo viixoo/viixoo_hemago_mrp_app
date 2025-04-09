@@ -349,7 +349,7 @@ function WorkOrdensTable({
               <Table.Cell>
                 <MenuRoot>
                   <MenuTrigger asChild>
-                    <IconButton variant="ghost" color="inherit" display={item.readonly? "none": "flex"}>
+                    <IconButton variant="ghost" color="inherit" display={item.readonly || (item.working_state == "blocked" && item.access_type == "operator")? "none": "flex"}>
                       <BsThreeDotsVertical />
                     </IconButton>
                   </MenuTrigger>

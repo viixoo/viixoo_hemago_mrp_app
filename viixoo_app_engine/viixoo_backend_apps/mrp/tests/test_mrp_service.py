@@ -48,6 +48,7 @@ class TestMrpEndpoints(unittest.TestCase):
             "urls_plans": "",
             "time_ids": [],
             "move_raw_ids": [],
+            "wororderblock_ids": [],
         }
 
     @patch("requests.post")

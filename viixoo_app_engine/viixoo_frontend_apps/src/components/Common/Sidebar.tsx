@@ -82,7 +82,6 @@ const Sidebar = () => {
         position="sticky"
         bg="bg.subtle"
         top={0}
-        minW="200px"
         maxW="250px"
         h="100vh"
         p={4}
