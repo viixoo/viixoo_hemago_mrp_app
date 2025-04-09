@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: IaC Deploy
 
 on:
   workflow_dispatch:
@@ -36,4 +36,3 @@ jobs:
           echo "::set-output name=instance_id::$(terraform output instance_id)"
           echo "instance_id=$(terraform output -raw instance_id)" >> $GITHUB_OUTPUT
           echo "public_ip=$(terraform output -raw instance_public_ip)" >> $GITHUB_OUTPUT
-    
