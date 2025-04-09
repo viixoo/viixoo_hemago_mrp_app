@@ -61,7 +61,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
           <GrView fontSize="16px" />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent maxW="600px">
         <form>
           <DialogHeader>
             <DialogTitle>Orden de trabajo</DialogTitle>
@@ -135,9 +135,12 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                     <Tabs.Trigger key="3" value="tab-others">
                     Otra información
                     </Tabs.Trigger>
+                    <Tabs.Trigger key="4" value="tab-block">
+                    Bloqueos
+                    </Tabs.Trigger>
                 </Tabs.List>
                <Tabs.Content key="1" value="tab-work-order-time">
-                  <Box maxH="130px" maxW="500px"overflowY="auto" borderWidth="1px" borderRadius="md">
+                  <Box maxH="130px" maxW="600px"overflowY="auto" borderWidth="1px" borderRadius="md">
                     <Table.Root maxH="100px" size="sm" showColumnBorder>
                       <Table.Header>
                         <Table.Row>
@@ -168,7 +171,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                     </Table.Root>
                   </Box>
                 </Tabs.Content>
-                <Tabs.Content key="2" maxW="500px" value="tab-instructions">
+                <Tabs.Content key="2" maxW="600px" value="tab-instructions">
                   <Field label="URL con las instrucciones:">
                     <Link
                       href={item?.url_document_instructions || ""}
@@ -227,6 +230,34 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                 >
                 </Input>
               </Field>
+                </Tabs.Content>
+                <Tabs.Content key="1" value="tab-block">
+                  <Box maxH="130px" maxW="600px"overflowY="auto" borderWidth="1px" borderRadius="md">
+                    <Table.Root maxH="100px" size="sm" showColumnBorder>
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.ColumnHeader fontWeight="bold" w="sm">Fecha/Hora</Table.ColumnHeader>
+                          <Table.ColumnHeader fontWeight="bold" w="sm">Motivo</Table.ColumnHeader>
+                          <Table.ColumnHeader fontWeight="bold" w="sm">Descripción</Table.ColumnHeader>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>
+                        {item.wororderblock_ids?.map((block) => (
+                          <Table.Row key={block.block_id}>
+                            <Table.Cell truncate maxW="150px">
+                              {block.datetime}
+                            </Table.Cell>
+                            <Table.Cell truncate maxW="310px">
+                              {block.loss}
+                            </Table.Cell>
+                            <Table.Cell truncate maxW="300px">
+                              {block.description}
+                            </Table.Cell>
+                          </Table.Row>
+                        ))}
+                      </Table.Body>
+                    </Table.Root>
+                  </Box>
                 </Tabs.Content>
               </Tabs.Root>
             </VStack>

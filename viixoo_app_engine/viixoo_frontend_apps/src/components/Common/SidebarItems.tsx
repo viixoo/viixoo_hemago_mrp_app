@@ -1,32 +1,35 @@
-import { Box, Flex, Icon, Text } from "@chakra-ui/react"
-import { Link as RouterLink } from "@tanstack/react-router"
-import { FiBriefcase } from "react-icons/fi"
-import type { IconType } from "react-icons/lib"
+import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "@tanstack/react-router";
+import { AiOutlineProduct, AiFillProduct } from "react-icons/ai";
+import { LuListCollapse } from "react-icons/lu";
+import { useState } from "react";
+import type { IconType } from "react-icons/lib";
 
 const items = [
-  { icon: FiBriefcase, title: "Órdenes de fabricación", path: "/items" },
-  { icon: FiBriefcase, title: "Órdenes de trabajo", path: "/workorders" },
-]
+  { icon: AiOutlineProduct, title: "Órdenes de fabricación", path: "/items" },
+  { icon: AiFillProduct, title: "Órdenes de trabajo", path: "/workorders" },
+];
 
 interface SidebarItemsProps {
-  onClose?: () => void
+  onClose?: () => void;
 }
 
 interface Item {
-  icon: IconType
-  title: string
-  path: string
+  icon: IconType;
+  title: string;
+  path: string;
 }
 
 const SidebarItems = ({ onClose }: SidebarItemsProps) => {
+  const [showTitles, setShowTitles] = useState(true);
 
-  const finalItems: Item[] = items
+  const finalItems: Item[] = items;
 
   const listItems = finalItems.map(({ icon, title, path }) => (
     <RouterLink key={title} to={path} onClick={onClose}>
       <Flex
         gap={4}
-        px={4}
+        px={2}
         py={2}
         _hover={{
           background: "gray.subtle",
@@ -34,20 +37,26 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
         alignItems="center"
         fontSize="sm"
       >
-        <Icon as={icon} alignSelf="center" />
-        <Text ml={2}>{title}</Text>
+        <span title={title}>
+          <Icon as={icon} alignSelf="center" boxSize="6" />
+        </span>
+        {showTitles && <Text ml={2}>{title}</Text>}
       </Flex>
     </RouterLink>
-  ))
+  ));
 
   return (
     <>
-      <Text fontSize="xs" px={4} py={2} fontWeight="bold">
-        Menu
-      </Text>
+      <Flex
+        paddingY="3"
+        cursor="pointer"
+        onClick={() => setShowTitles(!showTitles)}
+      >
+        <LuListCollapse size="20px" />
+      </Flex>
       <Box>{listItems}</Box>
     </>
-  )
-}
+  );
+};
 
-export default SidebarItems
+export default SidebarItems;
