@@ -22,20 +22,29 @@ interface Item {
 
 const SidebarItems = ({ onClose }: SidebarItemsProps) => {
   const [showTitles, setShowTitles] = useState(true);
+  const [activePath, setActivePath] = useState<string>("");
 
   const finalItems: Item[] = items;
 
   const listItems = finalItems.map(({ icon, title, path }) => (
-    <RouterLink key={title} to={path} onClick={onClose}>
+    <RouterLink
+      key={title}
+      to={path}
+      onClick={() => {
+        setActivePath(path);
+        if (onClose) onClose();
+      }}
+    >
       <Flex
         gap={4}
         px={2}
         py={2}
+        alignItems="center"
+        fontSize="sm"
+        background={activePath === path ? "gray.200" : "transparent"}
         _hover={{
           background: "gray.subtle",
         }}
-        alignItems="center"
-        fontSize="sm"
       >
         <span title={title}>
           <Icon as={icon} alignSelf="center" boxSize="6" />

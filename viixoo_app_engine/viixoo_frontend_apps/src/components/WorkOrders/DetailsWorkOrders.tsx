@@ -231,7 +231,7 @@ export const DetailsWorkOrders = ({ item }: WorkOrderProps) => {
                 </Input>
               </Field>
                 </Tabs.Content>
-                <Tabs.Content key="1" value="tab-block">
+                <Tabs.Content key="4" value="tab-block">
                   <Box maxH="130px" maxW="600px"overflowY="auto" borderWidth="1px" borderRadius="md">
                     <Table.Root maxH="100px" size="sm" showColumnBorder>
                       <Table.Header>
