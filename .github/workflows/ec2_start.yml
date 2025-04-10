@@ -2,7 +2,7 @@ name: Start EC2 Instance
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # Run daily at 12AM UTC 6AM MEXICO CITY.
+    - cron: "0 12 * * *" # Run daily at 12AM UTC 6AM MEXICO CITY.
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
