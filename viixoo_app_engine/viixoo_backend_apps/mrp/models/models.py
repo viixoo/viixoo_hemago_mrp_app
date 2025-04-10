@@ -37,10 +37,20 @@ class Time(BaseModel):
     loss: str
 
 
+class WorkOrderBlock(BaseModel):
+    """Model for Blockages monitoring."""
+
+    block_id: int
+    description: str
+    datetime: str
+    loss: str
+
+
 class WorkOrder(BaseModel):
     """Model for a work order."""
 
     readonly: bool
+    access_type: str
     workorder_id: int
     name: str
     product: str
@@ -64,6 +74,7 @@ class WorkOrder(BaseModel):
     urls_plans: str | None
     time_ids: list["Time"]
     move_raw_ids: list["Component"] | None
+    wororderblock_ids: list["WorkOrderBlock"] | None
 
 
 class ProductionOrder(BaseModel):

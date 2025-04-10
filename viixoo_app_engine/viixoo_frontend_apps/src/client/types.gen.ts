@@ -23,8 +23,16 @@ export type TimeEmployeePublic = {
   loss: string;
 };
 
+export type WorkorderBlockPublic = {
+  block_id: number;
+  description: string;
+  datetime: string;
+  loss: string;
+};
+
 export type WorkOrderPublic = {
   readonly: boolean;
+  access_type: string;
   workorder_id: number;
   name: string;
   product: string;
@@ -48,6 +56,7 @@ export type WorkOrderPublic = {
   urls_plans: string | null;
   time_ids: Array<TimeEmployeePublic>;
   move_raw_ids: Array<ComponentPublic>;
+  wororderblock_ids: Array<WorkorderBlockPublic>;
 };
 
 export type ReasonLossPublic = {

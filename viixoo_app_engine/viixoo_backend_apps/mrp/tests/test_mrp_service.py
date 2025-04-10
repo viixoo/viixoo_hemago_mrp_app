@@ -24,6 +24,7 @@ class TestMrpEndpoints(unittest.TestCase):
         )
         self.work_order = {
             "readonly": False,
+            "access_type": "operator",
             "workorder_id": 1,
             "name": "op1",
             "product": "prod1",
@@ -47,6 +48,7 @@ class TestMrpEndpoints(unittest.TestCase):
             "urls_plans": "",
             "time_ids": [],
             "move_raw_ids": [],
+            "wororderblock_ids": [],
         }
 
     @patch("requests.post")

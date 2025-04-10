@@ -2,9 +2,6 @@ name: Deploy to EC2
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -39,24 +36,3 @@ jobs:
           echo "::set-output name=instance_id::$(terraform output instance_id)"
           echo "instance_id=$(terraform output -raw instance_id)" >> $GITHUB_OUTPUT
           echo "public_ip=$(terraform output -raw instance_public_ip)" >> $GITHUB_OUTPUT
-
-      - name: Create SSH key
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa.pub
-
-      - name: Send SSH Public Key to EC2
-        if: always()
-        run: |
-          aws ec2-instance-connect send-ssh-public-key \
-          --instance-id ${{ steps.terraform-apply.outputs.instance_id }} \
-          --instance-os-user ubuntu \
-          --ssh-public-key file://~/.ssh/id_rsa.pub \
-          --region us-east-1
-
-      - name: SSH into EC2
-        if: always()
-        run: |
-          chmod 600 ~/.ssh/id_rsa
-          ssh -i ~/.ssh/id_rsa ubuntu@${{ steps.terraform-apply.outputs.public_ip }} -o StrictHostKeyChecking=no

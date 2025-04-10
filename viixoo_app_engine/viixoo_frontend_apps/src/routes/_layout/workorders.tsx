@@ -290,7 +290,7 @@ function WorkOrdensTable({
                 <DetailsWorkOrders item={item} />
               </Table.Cell>
               <Table.Cell>
-                <Group>
+                <Group display={item.readonly? "none": "flex"}>
                   <Button
                     minW="60px"
                     size="xs"
@@ -305,7 +305,7 @@ function WorkOrdensTable({
                     ["draft", "done", "cancel"].includes(item.production_state) ||
                     item.working_state == "blocked" ||
                     item.is_user_working ||
-                    item.readonly
+                    ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
                   }
@@ -337,7 +337,7 @@ function WorkOrdensTable({
                       "register_byproducts",
                       "instructions",
                     ].includes(item.test_type) ||
-                    item.readonly
+                    ["operator", "warehouse"].includes(item.access_type)
                       ? "none"
                       : "flex"
                   }
@@ -349,7 +349,7 @@ function WorkOrdensTable({
               <Table.Cell>
                 <MenuRoot>
                   <MenuTrigger asChild>
-                    <IconButton variant="ghost" color="inherit" display={item.readonly? "none": "flex"}>
+                    <IconButton variant="ghost" color="inherit" display={item.readonly || (item.working_state == "blocked" && item.access_type == "operator")? "none": "flex"}>
                       <BsThreeDotsVertical />
                     </IconButton>
                   </MenuTrigger>
@@ -372,7 +372,8 @@ function WorkOrdensTable({
                         "cancel",
                       ].includes(item.production_state) ||
                       item.working_state == "blocked" ||
-                      !item.is_user_working
+                      !item.is_user_working ||
+                      item.access_type != "supervisor"
                         ? "none"
                         : "flex"
                     }
@@ -397,7 +398,8 @@ function WorkOrdensTable({
                         "done",
                         "cancel",
                       ].includes(item.production_state) ||
-                      item.working_state != "blocked"
+                      item.working_state != "blocked" ||
+                      item.access_type != "supervisor"
                         ? "none"
                         : "flex"
                     }
