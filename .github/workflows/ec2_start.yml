@@ -18,4 +18,4 @@ jobs:
 
       - name: Start EC2 instance
         run: |
-          aws ec2 stop-instances --instance-ids ${{ vars.INSTANCE_ID }}  # Replace with your instance ID
+          aws ec2 start-instances --instance-ids ${{ vars.INSTANCE_ID }}  # Replace with your instance ID
