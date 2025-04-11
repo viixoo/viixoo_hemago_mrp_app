@@ -2,20 +2,20 @@ name: Stop EC2 Instance
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Run daily at 3AM UTC 9PM MEXICO CITY
-  workflow_dispatch:  # Allow manual triggering
+    - cron: "0 3 * * *" # Run daily at 3AM UTC 9PM MEXICO CITY.
+  workflow_dispatch: # Allow manual triggering
 
 jobs:
   stop-ec2:
     runs-on: ubuntu-latest
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Replace with your instance's region
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # Replace with your instance's region
 
-    - name: Stop EC2 instance
-      run: |
-        aws ec2 stop-instances --instance-ids ${{ vars.INSTANCE_ID }}  # Replace with your instance ID
+      - name: Stop EC2 instance
+        run: |
+          aws ec2 stop-instances --instance-ids ${{ vars.INSTANCE_ID }}  # Replace with your instance ID
