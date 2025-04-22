@@ -31,6 +31,13 @@ resource "aws_instance" "app_server" {
     http_endpoint               = "enabled"
     instance_metadata_tags      = "enabled"
   }
+
+  # Configure the root block device (volume)
+  root_block_device {
+    volume_size = 50    # Specify the desired volume size in GiB
+    volume_type = "gp3" # Specify the desired volume type
+    encrypted   = true  # Specify if the volume should be encrypted
+  }
 }
 
 # ------------------------------------------------------------------------------
