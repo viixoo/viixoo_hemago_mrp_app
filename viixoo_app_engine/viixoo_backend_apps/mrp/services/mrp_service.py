@@ -179,6 +179,7 @@ class MrpService(BaseService):
                 "employee_id": payload.get("sub"),
                 "order_search": order_search,
                 "show_all_state": show_all_state,
+                "lang": "es_MX",
                 "start": skip,
                 "limit": limit,
             }
@@ -230,6 +231,7 @@ class MrpService(BaseService):
                 "employee_id": payload.get("sub"),
                 "order_search": order_search,
                 "show_all_state": show_all_state,
+                "lang": "es_MX",
                 "start": skip,
                 "limit": limit,
             }
