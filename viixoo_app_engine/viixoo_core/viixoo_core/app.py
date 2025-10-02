@@ -13,9 +13,14 @@ load_dotenv()
 
 API_PREFIX = "/v1"
 
-app = FastAPI(title="An app powered by Viixoo App Engine. 🚀")
+app = FastAPI(title="An app powered by Wiixoo App Engine. 🚀")
 origins_str = os.getenv("ALLOWED_ORIGINS", "")
-origins = origins_str.split(",") if origins_str else []
+origins = (
+    [origin.strip() for origin in origins_str.split(",") if origin.strip()]
+    if origins_str
+    else []
+)
+print(f"🌐 CORS Origins configured: {origins}")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
