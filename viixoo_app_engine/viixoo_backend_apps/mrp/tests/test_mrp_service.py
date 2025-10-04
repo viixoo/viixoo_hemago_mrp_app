@@ -127,7 +127,7 @@ class TestMrpEndpoints(unittest.TestCase):
     def test_invalid_token_handling(self):
         """Tests invalid token."""
         response = client.get(
-            "/users/me/", headers={"Authorization": "Bearer invalid_token"}
+            "/users/me", headers={"Authorization": "Bearer invalid_token"}
         )
 
         self.assertEqual(response.status_code, 403)
@@ -366,7 +366,7 @@ class TestMrpEndpoints(unittest.TestCase):
         mock_get.return_value.text = json.dumps(mock_data)
 
         response = client.get(
-            "/reasons-loss", headers={"Authorization": f"Bearer {self.valid_token}"}
+            "/reasons-loss/", headers={"Authorization": f"Bearer {self.valid_token}"}
         )
 
         self.assertEqual(response.status_code, 200)
@@ -382,7 +382,7 @@ class TestMrpEndpoints(unittest.TestCase):
         mock_get.return_value.text = json.dumps(mock_data)
 
         response = client.get(
-            "/products", headers={"Authorization": f"Bearer {self.valid_token}"}
+            "/products/", headers={"Authorization": f"Bearer {self.valid_token}"}
         )
 
         self.assertEqual(response.status_code, 200)
