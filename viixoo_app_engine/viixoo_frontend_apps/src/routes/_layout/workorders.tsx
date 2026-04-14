@@ -142,10 +142,12 @@ function WorkOrdensTable({
       search: (prev: { [key: string]: string }) => ({ ...prev, page }),
     });
 
-  const items = data?.data.slice(0, PER_PAGE) ?? [];
+  const items = data?.data
+    .sort((a, b) => b.workorder_id - a.workorder_id)
+    .slice(0, PER_PAGE) ?? [];
   const count = data?.count ?? 0;
   const queryClient = useQueryClient();
-  const { showSuccessToast } = useCustomToast();
+  const { showSuccessToast, showErrorToast } = useCustomToast();
   const mutationStartWorkorder = useMutation({
     mutationFn: (data: ChangeStateWorkOrder) =>
       WorkOrdersService.startWorkorder({ requestBody: data }),
@@ -317,7 +319,6 @@ function WorkOrdensTable({
                     size="xs"
                     onClick={() =>{
                         if (item.quality_state == "none") {
-                          const { showErrorToast } = useCustomToast();
                           showErrorToast("Primero debe completar los controles de calidad.");
                         } else {
                           onClickFinishWorkorder({ workorder_id: item.workorder_id })
