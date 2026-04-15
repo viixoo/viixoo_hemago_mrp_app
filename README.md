@@ -21,7 +21,7 @@ The application follows a modern microservices architecture with separate fronte
 - **Framework**: FastAPI with Python
 - **Database**: PostgreSQL
 - **Core Engine**: Custom Viixoo App Engine for microservices
-- **Modules**: 
+- **Modules**:
   - `viixoo_core/`: Core framework and utilities
   - `viixoo_backend_apps/mrp/`: MRP-specific business logic
   - `viixoo_backend_apps/example/`: Example module
@@ -37,7 +37,7 @@ The application follows a modern microservices architecture with separate fronte
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.9+ 
+- Python 3.9+
 - Node.js 18+
 - PostgreSQL database
 - Docker (optional, for containerized deployment)
@@ -77,7 +77,7 @@ The application follows a modern microservices architecture with separate fronte
    ```bash
    uvicorn viixoo_core.app:app --reload
    ```
-   
+
    The API will be available at `http://localhost:8000`
 
 ### Frontend Setup
@@ -96,7 +96,7 @@ The application follows a modern microservices architecture with separate fronte
    ```bash
    npm run dev
    ```
-   
+
    The frontend will be available at `http://localhost:5173`
 
 ## 📁 Project Structure
