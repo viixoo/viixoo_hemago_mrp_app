@@ -41,7 +41,7 @@ class WorkOrderBlock(BaseModel):
     """Model for Blockages monitoring."""
 
     block_id: int
-    description: str
+    description: str | None
     datetime: str
     loss: str
 
